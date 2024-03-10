@@ -6,7 +6,7 @@ const con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "CommuniCraft",
+  database: "communiCraft",
 });
 
 con.connect((err) => {
