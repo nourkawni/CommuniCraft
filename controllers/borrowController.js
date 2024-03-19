@@ -23,7 +23,8 @@ exports.addItem = (req, res) => {
 
 
   exports.deleteItem = (req, res) => {
-    const  itemId  = req.params;
+    const currentId = req.user.id;
+    const itemId = req.params.itemId;
 
     const countQuery = `SELECT COUNT(*) AS count FROM borrowing WHERE material_id=?`;
     con.query(countQuery, [itemId], async (err, results) => {
@@ -37,19 +38,35 @@ exports.addItem = (req, res) => {
             res.status(404).json({ error: 'Item not found' });
             return;
         }
-// لازم هون نبحث اذا اليوزر بملكه 
-        const deleteQuery = `DELETE FROM borrowing WHERE material_id=?`;
-        con.query(deleteQuery, [itemId], async (err, results) => {
+
+        const lenderIdQuery = `SELECT lender_id FROM borrowing WHERE material_id=?`;
+        con.query(lenderIdQuery, [itemId], async (err, results) => {
             if (err) {
                 console.log(err);
                 res.status(500).json({ error: 'Internal server error' });
                 return;
             }
 
-            res.status(200).json({ status: 'deleted successfully' });
+            const lenderId = results[0].lender_id;
+            if (lenderId != currentId) {
+                res.status(403).json({ error: 'You do not have permission to delete this item' });
+                return;
+            }
+
+            const deleteQuery = `DELETE FROM borrowing WHERE material_id=?`;
+            con.query(deleteQuery, [itemId], async (err, results) => {
+                if (err) {
+                    console.log(err);
+                    res.status(500).json({ error: 'Internal server error' });
+                    return;
+                }
+
+                res.status(200).json({ status: 'deleted successfully' });
+            });
         });
     });
 };
+
 
 
 exports.searchByLeanderId = (req, res) => {
@@ -108,57 +125,6 @@ exports.searchByLeanderId = (req, res) => {
             return res.json({ Data: results });
         });
     };
-    
-
-
-    exports.reserveItem = (req, res) => {
-        const { settlerId, materialId, period } = req.body;
-    
-        con.beginTransaction((err) => {
-            if (err) {
-                console.log(err);
-                res.status(500).json({ error: 'Internal server error' });
-                return;
-            }
-    
-            const insertQuery = `INSERT INTO settler(settler_id, material_id, period)  VALUES (?,?,?)`;
-            con.query(insertQuery, [settlerId, materialId, period], async (err, results) => {
-                if (err) {
-                    con.rollback(() => {
-                        console.log(err);
-                        res.status(500).json({ error: 'Internal server error' });
-                    });
-                    return;
-                }
-
-               
-    
-                const updateQuery = `UPDATE borrowing SET count = count - 1 WHERE material_id = ?`;
-                con.query(updateQuery, [materialId], async (err, results) => {
-                    if (err) {
-                        con.rollback(() => {
-                            console.log(err);
-                            res.status(500).json({ error: 'Internal server error' });
-                        });
-                        return;
-                    }
-    
-                    con.commit((err) => {
-                        if (err) {
-                            con.rollback(() => {
-                                console.log(err);
-                                res.status(500).json({ error: 'Internal server error' });
-                            });
-                            return;
-                        }
-    
-                        res.status(200).json({ status: 'added successfully' });
-                    });
-                });
-            });
-        });
-    };
-
     
     
     exports.reserveItem = (req, res) => {

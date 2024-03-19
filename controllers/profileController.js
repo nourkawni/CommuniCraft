@@ -1,14 +1,25 @@
 
 const con = require('../config/dataBase');
+const bcrypt = require('bcrypt');
+const saltRounds=10;
 
 exports.addUser = (req, res) => {
   const { name, email, location, role, password, experience, projectNum, wShoopNum, field } = req.body;
+ 
+// Hashing the password
+bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
+  if (err) {
+      console.error(err);
+      return;
+  }
+
+
 
   const checkQuery = `SELECT COUNT(*) AS count FROM user WHERE email = ?`;
   con.query(checkQuery, [email], async (err, results) => {
       if (err) {
         console.log(err);
-          res.status(500).json({ error: 'Internal server errorfdcgnnyjyfc' });
+          res.status(500).json({ error: 'Internal server error' });
           
           return;
       }
@@ -19,8 +30,8 @@ exports.addUser = (req, res) => {
       }
     
 
-      const insertQuery = `INSERT INTO user(name, email, location, role, password, experience_years, projects_num, workshop_num, filed)  VALUES (?,?,?,?,?,?,?,?,?)`;
-      con.query(insertQuery, [name, email, location, role, password, experience, projectNum, wShoopNum, field], async (err, results) => {
+      const insertQuery = `INSERT INTO user(name, email, location, role, password, experience_years, projects_num, workshop_num, field)  VALUES (?,?,?,?,?,?,?,?,?)`;
+      con.query(insertQuery, [name, email, location, role, hashedPassword, experience, projectNum, wShoopNum, field], async (err, results) => {
           if (err) {
             console.log(err);
               res.status(500).json({ error: 'Internal server error' });
@@ -29,10 +40,15 @@ exports.addUser = (req, res) => {
 
           res.status(200).json({ status: 'added successfully' });
       });
+
   });
+
+}
+);
 };
 
  exports. searchById=(req, res) => {
+
     const { userId } = req.params;
     con.query(
       'SELECT * FROM user WHERE user_id = ?',
@@ -68,88 +84,6 @@ exports.addUser = (req, res) => {
       },
     );
   }
-
-  exports. searchBylocation=(req, res) => {
-    const  location = req.params.location;
-    console.log(location);    
-    con.query(
-      'SELECT * FROM user WHERE location = ?',
-      [location],
-      (error, results) => {
-
-        if (error) {
-          return res.status(500).json({ message: 'Internal server error.' });
-        }
-        if (results.length === 0) {
-          return res.status(401).json({ message: 'Invalid data.  No '+ location+' in records'});
-        }
-        return res.json({ Data: results });
-      },
-    );
-  }
-
-  exports. searchByExperienceYear=(req, res) => {
-
-    const experienceYear = req.params.expYears;
-    
-    con.query(
-      'SELECT * FROM user WHERE experience_years >= ?',
-      [experienceYear],
-      (error, results) => {
-
-        if (error) {
-          return res.status(500).json({ message: 'Internal server error.' });
-        }
-        if (results.length === 0) {
-          return res.status(401).json({ message: 'Invalid data.  No '+ experienceYear+' in records'});
-        }
-        return res.json({ Data: results });
-      },
-    );
-  }
-
-  exports. searchByWshopNum=(req, res) => {
-
-    const WshopNum = req.params.WshopNum;
-    
-    con.query(
-      'SELECT * FROM user WHERE workshop_num >= ?',
-      [WshopNum],
-      (error, results) => {
-
-        if (error) {
-          return res.status(500).json({ message: 'Internal server error.' });
-        }
-        if (results.length === 0) {
-          return res.status(401).json({ message: 'Invalid data.  No '+ WshopNum+' in records'});
-        }
-        return res.json({ Data: results });
-      },
-    );
-  }
-
-  exports. searchByField=(req, res) => {
-
-    const WshopNum = req.params.field;
-    
-    con.query(
-      'SELECT * FROM user WHERE workshop_num = ?',
-      [field],
-      (error, results) => {
-
-        if (error) {
-          return res.status(500).json({ message: 'Internal server error.' });
-        }
-        if (results.length === 0) {
-          return res.status(401).json({ message: 'Invalid data.  No '+ field+' in records'});
-        }
-        return res.json({ Data: results });
-      },
-    );
-  }
-
-
-
 
   exports.search = (req, res) => {
     const field = req.query.field;
@@ -190,8 +124,10 @@ exports.addUser = (req, res) => {
 
 
   exports. updatePassword=(req, res) =>{
+
+    const currentId=req.user.id
     const { newPassword,userId} = req.body; 
-    console.log(newPassword);
+if(currentId==userId){
    con.query(
         'UPDATE user SET password=?  Where user_id=?',
         [newPassword, userId],
@@ -205,26 +141,46 @@ exports.addUser = (req, res) => {
         },
       );
     }
+    else {
+        return res.status(403).json({ message: 'you do not have permession for this.' });
+
+    }
+  }
 
 
     exports. updateLocation=(req, res) =>{
-        const { newLocation,userId} = req.body; 
-       con.query(
-            'UPDATE user SET location=?  Where user_id=?',
-            [newLocation, userId],
-            (updateError) => {
-              if (updateError) {
-                console.log(updateError);
-                return res.status(500).json({ error: 'Failed to update locaion' });
-              }
-    
-              return res.status(200).json({ message: 'locaion updated successfully.' });
-            },
-          );
-        }
+      const currentId=req.user.id
+      const { newLocation,userId} = req.body; 
+
+      if(currentId==userId){
+
+        con.query(
+              'UPDATE user SET location=?  Where user_id=?',
+              [newLocation, userId],
+              (updateError) => {
+                if (updateError) {
+                  console.log(updateError);
+                  return res.status(500).json({ error: 'Failed to update locaion' });
+                }
+      
+                return res.status(200).json({ message: 'locaion updated successfully.' });
+              },
+            );
+          }
+          else{
+            return res.status(403).json({ message: 'you do not have permession for this.' });
+
+          }
+      }
+     
 
         exports. updateProjectNum=(req, res) =>{
+          const currentId=req.user.id
+
             const { newProjectNum,userId} = req.body; 
+
+            if(currentId==userId){
+
            con.query(
                 'UPDATE user SET projects_num=?  Where user_id=?',
                 [newProjectNum, userId],
@@ -238,3 +194,8 @@ exports.addUser = (req, res) => {
                 },
               );
             }
+          else {
+            return res.status(403).json({ message: 'you do not have permession for this.' });
+
+          }
+          }

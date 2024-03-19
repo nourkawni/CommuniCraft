@@ -4,10 +4,13 @@ app.use(express.json());
 const loginRouter = require('./routes/loginRoutes')
 const profileRouter = require('./routes/profileRoutes')
 const borrowRouter = require('./routes/borrowRouter')
+const notificationRouter = require('./routes/notificationRoutes')
+
 
 app.use('/login', loginRouter);
 app.use('/profile', profileRouter);
 app.use('/borrow', borrowRouter);
+app.use('/notification', notificationRouter);
 
 
 app.listen(5000, () => {
