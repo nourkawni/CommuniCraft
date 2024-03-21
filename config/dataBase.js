@@ -6,11 +6,7 @@ const con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-<<<<<<< HEAD
   database: "communicraft",
-=======
-  database: "communiCraft",
->>>>>>> ab12dc6880962d54bc78324f21cb38b93c91da8f
 });
 
 con.connect((err) => {
