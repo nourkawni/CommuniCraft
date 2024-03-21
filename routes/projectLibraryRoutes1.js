@@ -4,16 +4,16 @@ const { addFavorite, addRate, addComment, returnFavorite, returnComment, returnR
 const router=express.Router();
 const verifyToken=require('../middleware/authenticationToken');
 
-router.put('/addFavorite/:projectID',verifyToken,addFavorite);
-router.post('/addRate/:projectID',verifyToken,addRate);
-router.post('/addComment/:projectID',verifyToken,addComment);
+router.put('/Favorite/:projectID',verifyToken,addFavorite);
+router.post('/Rate/:projectID',verifyToken,addRate);
+router.post('/Comment/:projectID',verifyToken,addComment);
 
 
-router.get('/returnFavorite',verifyToken,returnFavorite)
-router.get('/returnComment/:projectID',returnComment)
-router.get('/returnRate/:projectID',returnRate)
+router.get('/Favorite',verifyToken,returnFavorite)
+router.get('/Comment/:projectID',returnComment)
+router.get('/Rate/:projectID',returnRate)
 
-router.delete('/deleteFavorite/:projectID',verifyToken,deleteFavorite)
-router.post('/updateRate/:projectID',verifyToken,updateRate)
+router.delete('/Favorite/:projectID',verifyToken,deleteFavorite)
+router.post('/RateChange/:projectID',verifyToken,updateRate)
 
 module.exports=router;

@@ -4,11 +4,11 @@ const router=express.Router();
 
 const verifyToken=require('../middleware/authenticationToken');
 
-router.get('/returnSales',returnSales)
+router.get('/allSales',returnSales)
 router.get('/search/?',search)
-router.post('/addmaterial',verifyToken,addMaterial)
+router.post('/material',verifyToken,addMaterial)
 router.post('/buy',buy)
-router.get('/returnsellermaterials',verifyToken,returnSellerMaterials)
+router.get('/sellermaterials',verifyToken,returnSellerMaterials)
 router.delete('/:materialName',verifyToken,deleteMaterial)
 
 module.exports=router;
