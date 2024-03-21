@@ -2,8 +2,16 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 const loginRouter = require('./routes/loginRoutes')
+const profileRouter = require('./routes/profileRoutes')
+const borrowRouter = require('./routes/borrowRouter')
+const notificationRouter = require('./routes/notificationRoutes')
+
 
 app.use('/login', loginRouter);
+app.use('/profile', profileRouter);
+app.use('/borrow', borrowRouter);
+app.use('/notification', notificationRouter);
+
 
 app.listen(5000, () => {
     console.log("app is listening on the port 5000");
