@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const saltRounds=10;
 
 exports.addUser = (req, res) => {
-  const { name, email, location, role, password, experience, projectNum, wShoopNum, field } = req.body;
+  const { name, email, location, telephone,role, password, experience, projectNum, wShoopNum, field,additional_info } = req.body;
  
 // Hashing the password
 bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
@@ -30,8 +30,8 @@ bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
       }
     
 
-      const insertQuery = `INSERT INTO user(name, email, location, role, password, experience_years, projects_num, workshop_num, field)  VALUES (?,?,?,?,?,?,?,?,?)`;
-      con.query(insertQuery, [name, email, location, role, hashedPassword, experience, projectNum, wShoopNum, field], async (err, results) => {
+      const insertQuery = `INSERT INTO user(name, email, location,telephone, role, password, experience_years, projects_num, workshop_num, field,additional_info)  VALUES (?,?,?,?,?,?,?,?,?,?,?)`;
+      con.query(insertQuery, [name, email, location, telephone,role, hashedPassword, experience, projectNum, wShoopNum, field,additional_info], async (err, results) => {
           if (err) {
             console.log(err);
               res.status(500).json({ error: 'Internal server error' });
