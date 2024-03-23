@@ -87,9 +87,9 @@ bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
 
   exports.search = (req, res) => {
     const field = req.query.field;
-    const exp = req.query.location;
-    const wShop = req.query.description;
-    const location = req.query.description;
+    const exp = req.query.exp;
+    const wShop = req.query.wShop;
+    const location = req.query.location;
 
 
     let query = 'SELECT * FROM user WHERE field = ?';
