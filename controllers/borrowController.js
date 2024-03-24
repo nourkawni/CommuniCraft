@@ -4,7 +4,7 @@ const con = require('../config/dataBase');
 
 exports.addItem = (req, res) => {
     const { lenderId, lenderName, materialName, count, description, telephone, location} = req.body;
-  
+            
  
     
         const insertQuery = `INSERT INTO borrowing(lender_id, lender_name, material_name, count, description, telephone, location)  VALUES (?,?,?,?,?,?,?)`;
@@ -69,14 +69,16 @@ exports.addItem = (req, res) => {
 
 
 
-exports.searchByLeanderId = (req, res) => {
+exports.getMyMaterilas = (req, res) => {
 
     const lenderId  = req.params.lenderId;
+    const currentId = req.user.id;
+
 
 
     con.query(
         'SELECT * FROM borrowing WHERE lender_id = ?',
-        [lenderId],
+        [currentId],
         (error, results) => {
   
           if (error) {
@@ -128,7 +130,10 @@ exports.searchByLeanderId = (req, res) => {
     
     
     exports.reserveItem = (req, res) => {
-        const { settlerId, materialId, period } = req.body;
+
+        const { materialId, period } = req.body;
+        const currentId = req.user.id;
+
     
         // Get the current amount from the borrow table
         const selectQuery = `SELECT count FROM borrowing WHERE material_id = ?`;
@@ -162,7 +167,7 @@ exports.searchByLeanderId = (req, res) => {
     
                 // Insert into settler table
                 const insertQuery = `INSERT INTO settler(settler_id, material_id, period)  VALUES (?,?,?)`;
-                con.query(insertQuery, [settlerId, materialId, period], async (err, results) => {
+                con.query(insertQuery, [currentId, materialId, period], async (err, results) => {
                     if (err) {
                         return con.rollback(() => {
                             console.log(err);
@@ -201,7 +206,26 @@ exports.searchByLeanderId = (req, res) => {
     
 
 
+    exports.getMyReservation = (req, res) => {
+        const currentId = req.user.id;
+    
+        con.query(
+            'SELECT b.* FROM settler s JOIN borrowing b ON s.material_id = b.material_id WHERE s.settler_id = ?',
+            [currentId],
+            (error, results) => {
+                if (error) {
+                    console.log(error);
 
+                    return res.status(500).json({ message: 'Internal server error.' });
+                }
+                if (results.length === 0) {
+                    return res.status(401).json({ message: 'Invalid data. No reservation found for this user.' });
+                }
+                return res.json({ Data: results });
+            },
+        );
+    }
+    
 
 
 
