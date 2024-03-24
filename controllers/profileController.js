@@ -68,7 +68,7 @@ bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
 
 
   exports. searchByName=(req, res) => {
-    const { userName } = req.params.name;
+    const userName = req.params.name;
     con.query(
       'SELECT * FROM user WHERE name = ?',
       [userName],
@@ -122,80 +122,68 @@ bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
 
 
 
+exports.updatePassword = (req, res) => {
+  const currentId = req.user.id;
+  const  {newPassword } = req.body;
+  console.log(newPassword)
 
-  exports. updatePassword=(req, res) =>{
-
-    const currentId=req.user.id
-    const { newPassword,userId} = req.body; 
-if(currentId==userId){
-   con.query(
-        'UPDATE user SET password=?  Where user_id=?',
-        [newPassword, userId],
-        (updateError) => {
-          if (updateError) {
-            console.log(updateError);
-            return res.status(500).json({ error: 'Failed to update password' });
-          }
-
-          return res.status(200).json({ message: 'password updated successfully.' });
-        },
-      );
+  bcrypt.hash(newPassword, saltRounds, (err, hashedPassword) => {
+    if (err) {
+      console.error(err);
+      return;
     }
-    else {
-        return res.status(403).json({ message: 'you do not have permession for this.' });
 
-    }
-  }
+    con.query(
+      'UPDATE user SET password=? WHERE user_id=?',
+      [hashedPassword, currentId],
+      (updateError) => {
+        if (updateError) {
+          console.log(updateError);
+          return res.status(500).json({ error: 'Failed to update password' });
+        }
+
+        return res.status(200).json({ message: 'Password updated successfully.' });
+      },
+    );
+  });
+};
 
 
-    exports. updateLocation=(req, res) =>{
-      const currentId=req.user.id
-      const { newLocation,userId} = req.body; 
 
-      if(currentId==userId){
 
-        con.query(
-              'UPDATE user SET location=?  Where user_id=?',
-              [newLocation, userId],
-              (updateError) => {
-                if (updateError) {
-                  console.log(updateError);
-                  return res.status(500).json({ error: 'Failed to update locaion' });
-                }
-      
-                return res.status(200).json({ message: 'locaion updated successfully.' });
-              },
-            );
-          }
-          else{
-            return res.status(403).json({ message: 'you do not have permession for this.' });
+exports.updateLocation = (req, res) => {
+  const currentId = req.user.id;
+  const { newLocation } = req.body;
 
-          }
+  con.query(
+    'UPDATE user SET location=? WHERE user_id=?',
+    [newLocation, currentId],
+    (updateError) => {
+      if (updateError) {
+        console.log(updateError);
+        return res.status(500).json({ error: 'Failed to update location' });
       }
-     
 
-        exports. updateProjectNum=(req, res) =>{
-          const currentId=req.user.id
+      return res.status(200).json({ message: 'Location updated successfully.' });
+    },
+  );
+};
 
-            const { newProjectNum,userId} = req.body; 
 
-            if(currentId==userId){
+exports.updateProjectNum = (req, res) => {
+  const currentId = req.user.id;
+  const { newProjectNum } = req.body;
 
-           con.query(
-                'UPDATE user SET projects_num=?  Where user_id=?',
-                [newProjectNum, userId],
-                (updateError) => {
-                  if (updateError) {
-                    console.log(updateError);
-                    return res.status(500).json({ error: 'Failed to update project number' });
-                  }
-        
-                  return res.status(200).json({ message: 'project number updated successfully.' });
-                },
-              );
-            }
-          else {
-            return res.status(403).json({ message: 'you do not have permession for this.' });
+  con.query(
+    'UPDATE user SET projects_num=? WHERE user_id=?',
+    [newProjectNum, currentId],
+    (updateError) => {
+      if (updateError) {
+        console.log(updateError);
+        return res.status(500).json({ error: 'Failed to update project number' });
+      }
 
-          }
-          }
+      return res.status(200).json({ message: 'Project number updated successfully.' });
+    },
+  );
+};

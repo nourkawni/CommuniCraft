@@ -3,13 +3,14 @@ const router=express.Router();
 const verifyToken=require('../middleware/authenticationToken');
 
 
-const {addItem,deleteItem,searchByLeanderId,search,reserveItem}=require('../controllers/borrowController')
+const {addItem,deleteItem,getMyMaterilas,search,reserveItem,getMyReservation}=require('../controllers/borrowController')
 
 
-router.post('/',addItem);
+router.post('/',verifyToken,addItem);
 router.delete('/:itemId',verifyToken,deleteItem);
-router.get('/lender/:lenderId',searchByLeanderId);
+router.get('/lender',verifyToken,getMyMaterilas);
 
 router.get('/',search);
-router.post('/reserve',reserveItem);
+router.get('/myReservation',verifyToken,getMyReservation);
+router.post('/reserve',verifyToken,reserveItem);
 module.exports=router;

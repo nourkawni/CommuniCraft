@@ -27,7 +27,7 @@ app.use('/projectLibrary', projectLibraryRouter);
 app.use('/sell', sellRouter);
 app.use('/chat',chatRouter)
 
-app.listen(2008, () => {
-    console.log("app is listening on the port 2000");
+app.listen(5000, () => {
+    console.log("app is listening on the port 5000");
 });
 
