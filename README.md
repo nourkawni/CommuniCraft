@@ -9,7 +9,11 @@ This project we created a robust backend to handle data collection, and reportin
 2. Project Library: User can view the projects collection and categorize them by skills, group size, level, type etc.
 3. Add Recommendation: User can give feedback on projects through adding recommendations and rating projects.
 4. Resource Sharing: Users can list available materials and tools, promoting resourcefulness and reducing individual costs.
-5. 
+5. Showcase and Sharing: The platform facilitates sharing finished projects, fostering community engagement, and inspiring others.
+6. Collaborative Planning: Integrated communication tools and project planning features allow teams to coordinate, share ideas, and assign tasks.
+7. External API: 
+
+
 # Technologies Used
 * Node.js: Backend development platform.
 * MySQL: Database for CRUD operations.
