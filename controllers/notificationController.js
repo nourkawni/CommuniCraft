@@ -11,7 +11,7 @@ exports.getMyNotifications = (req, res) => {
             return res.status(500).json({ message: 'Internal server error.' });
           }
           if (results.length === 0) {
-            return res.status(401).json({ message: 'Invalid data.' });
+            return res.status(401).json({ message: 'No notification yet .' });
           }
           return res.json({ Data: results });
         },
@@ -64,4 +64,42 @@ exports.getMyNotifications = (req, res) => {
         });
     });
 };
+
+
+
+const cron = require('node-cron');
+
+// Schedule a task to run every day at midnight
+cron.schedule('0 0 * * *', () => {
+    console.log('Running daily task...');
+    checkPeriodAndSendNotification();
+});
+
+function checkPeriodAndSendNotification() {
+    const selectQuery = `SELECT settler.settler_id, borrowing.material_id, borrowing.material_name
+                         FROM settler
+                         JOIN borrowing ON settler.material_id = borrowing.material_id
+                         WHERE settler.period = 0`;
+    con.query(selectQuery, (err, results) => {
+        if (err) {
+            console.log(err);
+        } else {
+            results.forEach((row) => {
+                const { settler_id, material_id, material_name } = row;
+                const message = `Your period has ended for ${material_name} (ID: ${material_id})`;
+                const insertQuery = `INSERT INTO notification (user_id, message) VALUES (?, ?)`;
+                con.query(insertQuery, [settler_id, message], (err, results) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(`Notification added successfully for settler_id ${settler_id}`);
+                    }
+                });
+            });
+        }
+    });
+}
+
+
+
 

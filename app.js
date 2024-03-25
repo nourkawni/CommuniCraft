@@ -27,10 +27,8 @@ app.use('/projectLibrary', projectLibraryRouter);
 app.use('/sale', saleRouter);
 app.use('/chat',chatRouter)
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 1a64fcf96319eef41e867dfdf5c4aafaea4257b0
+
 app.listen(5000, () => {
     console.log("app is listening on the port 5000");
 });
