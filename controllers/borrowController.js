@@ -1,5 +1,7 @@
 
 const con = require('../config/dataBase');
+const cron = require('node-cron');
+
 
 
 exports.addItem = (req, res) => {
@@ -226,6 +228,27 @@ exports.getMyMaterilas = (req, res) => {
         );
     }
     
+
+
+// Schedule a task to run every day at midnight
+cron.schedule('0 0 * * *', () => {
+    // Your logic to decrement the period of borrowed items by one
+    console.log('Running daily task...');
+    decrementPeriod();
+});
+
+function decrementPeriod() {
+    // Logic to decrement the period of borrowed items by one
+    const updateQuery = `UPDATE settler SET period = period - 1 WHERE period > 0`;
+    con.query(updateQuery, (err, results) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log('Period decremented successfully');
+        }
+    });
+}
+
 
 
 
