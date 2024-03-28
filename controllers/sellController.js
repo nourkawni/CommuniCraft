@@ -36,7 +36,7 @@ exports.search = (req, res) => {
       return res.status(500).json({ message: 'Internal server error.' });
     }
     if (results.length === 0) {
-      return res.status(401).json({ message: 'Invalid data' });
+      return res.status(400).json({ message: 'Invalid data' });
     }    
     return res.json({ Data: results });
 
