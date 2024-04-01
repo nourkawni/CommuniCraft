@@ -1,8 +1,19 @@
 # CommuniCraft	- Building	Bridges	Through	Collaborative	Craftsmanship
-In this project, we developed a backend API for CommuniCraft - Building Bridges Through
-Collaborative Craftsmanship. our API connects people with the joy of hands-on
-creation and foster meaningful connections through collaborative craft projects. 
+In this project, we developed a backend API for CommuniCraft - Building Bridges Through Collaborative Craftsmanship. our API connects people with the joy of hands-on creation and foster meaningful connections through collaborative craft projects. 
 This project we created a robust backend to handle data collection, and reporting using Node.js.
+
+# Table of Contents
+* [Introduction](#introduction)
+* [Features](#features)
+* [Technologies Used](#TechnologiesUsed)
+* [Getting Started](#GettingStarted)
+* [API Documentation](#APIDocumentation)
+* [Vision](#Vision)
+
+
+# Introduction
+CommuniCraft is an innovative platform for fostering collaboration and creativity within the crafting community. Built on a powerful backend API using Node.js, CommuniCraft facilitates project sharing, skill matching, and resource sharing among users. With features like curated project libraries, skill matching profiles, and integrated communication tools, CommuniCraft aims to inspire meaningful connections and streamline collaborative craftsmanship experiences.
+
 
 # Features
 ### Main Features:
@@ -35,10 +46,10 @@ To get started with CommuniCraft API, follow these steps:
 2. **Install dependencies**: npm install.
 3. **Configure environment variables**.
 4. **Run the application**: npm start.
-This project we created a robust backend to handle data collection, and reporting using Node JS.
+
 
 # API Documentation
-Using Postman for documenting the API. [click here for API Documentation](https://martian-comet-904989.postman.co/workspace/Advanced-project~a34f0a14-f915-4dee-a434-eef38fb556ba/collection/33145521-b5344b50-7bfd-4d58-8fab-289060437902?action=share&creator=33145521)
+Using Postman for documenting the API. [click here for API Documentation](https://martian-comet-904989.postman.co/workspace/Advanced-project~a34f0a14-f915-4dee-a434-eef38fb556ba/collection/33145521-b5344b50-7bfd-4d58-8fab-289060437902?action=share&creator=33145521).
 
 
 # Vision
