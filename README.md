@@ -5,9 +5,9 @@ This project we created a robust backend to handle data collection, and reportin
 # Table of Contents
 * [Introduction](#introduction)
 * [Features](#features)
-* [Technologies Used](#TechnologiesUsed)
-* [Getting Started](#GettingStarted)
-* [API Documentation](#APIDocumentation)
+* [Technologies Used](#technologiesused)
+* [Getting Started](#gettingstarted)
+* [API Documentation](#apidocumentation)
 * [Vision](#Vision)
 
 
