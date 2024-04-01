@@ -1,8 +1,7 @@
 const express = require('express');
 const app = express();
-
-
-
+app.use(express.json());  
+const TeamRouter=require("./routes/JoinTeamRoutes")
 app.use(express.json());
 const loginRouter = require('./routes/loginRoutes')
 const profileRouter = require('./routes/profileRoutes')
@@ -29,7 +28,8 @@ app.use('/chat',chatRouter)
 
 
 
+
+app.use('/joinTeam', TeamRouter);
 app.listen(5000, () => {
     console.log("app is listening on the port 5000");
 });
-
