@@ -20,3 +20,9 @@ This project we created a robust backend to handle data collection, and reportin
 * Postman: API building, testing and documentation tool.
 * Git: Version control system.
 
+# Getting Started 
+To get started with CommuniCraft API, follow these steps:
+1. **Clone the repository:** https://github.com/nourkawni/CommuniCraft.git.
+2. **Install dependencies**: npm install.
+3. **Configure environment variables**.
+4. **Run the application**: npm start.
