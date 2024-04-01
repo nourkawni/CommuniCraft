@@ -2,7 +2,7 @@
 const OpenAI = require("openai");
 
 const openai = new OpenAI({
-  apiKey: "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"
+  apiKey: "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"
 });
 
 const chatAPI = async (req, res) => {
