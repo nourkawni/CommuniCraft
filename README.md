@@ -16,7 +16,8 @@ This project we created a robust backend to handle data collection, and reportin
 CommuniCraft is an innovative platform for fostering collaboration and creativity within the crafting community. Built on a powerful backend API using Node.js, CommuniCraft facilitates project sharing, skill matching, and resource sharing among users. With features like curated project libraries, skill matching profiles, and integrated communication tools, CommuniCraft aims to inspire meaningful connections and streamline collaborative craftsmanship experiences.
 
 # Project Folders
-![Project Folders](https://github.com/nourkawni/CommuniCraft/assets/109153661/a62c5b7c-55dd-4b0c-b0ca-63b1d124ffbf)
+![Project Folders](https://github.com/nourkawni/CommuniCraft/assets/109153661/ec59e4e9-cdde-4dcf-adb8-2f8c26e10e28)
+
 
 # Features
 ### Main Features:
